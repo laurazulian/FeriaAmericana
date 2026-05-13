@@ -1,0 +1,22 @@
+[
+  {
+    "id": "85f5359e-d2d3-454c-9221-6776383dc578",
+    "nombre": "Calza Fucsia",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "",
+    "imagen": "imagenes/calzafucsia.jpeg"
+  },
+  {
+    "id": "c647f407-aebc-493d-8194-46e960eb111c",
+    "nombre": "Calza combinada verde",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "",
+    "imagen": "imagenes/calzacombinadaverde.jpeg"
+  }
+]

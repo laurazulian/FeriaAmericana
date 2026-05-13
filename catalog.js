@@ -1,7 +1,6 @@
 // catalog.js — catálogo público, solo lectura
 
-const STORAGE_KEY = 'feria_americana_v1';
-let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let items = [];
 let currentFilter = 'todas';
 
 function render() {
@@ -25,7 +24,7 @@ function render() {
   }
 
   grid.innerHTML = filtered.map(item => `
-    <div class="card" data-id="${item.id}">
+    <div class="card">
       <div class="card-img-wrap" onclick="openLightbox('${item.id}')">
         ${item.imagen
           ? `<img src="${item.imagen}" alt="${item.nombre}" />`
@@ -44,6 +43,23 @@ function render() {
       </div>
     </div>
   `).join('');
+}
+
+function showLoading() {
+  document.getElementById('catalogGrid').innerHTML = `
+    <div class="empty-state">
+      <div class="icon">⏳</div>
+      <strong>Cargando catálogo...</strong>
+    </div>`;
+}
+
+function showError() {
+  document.getElementById('catalogGrid').innerHTML = `
+    <div class="empty-state">
+      <div class="icon">⚠️</div>
+      <strong>No se pudo cargar el catálogo</strong>
+      <p>Revisá tu conexión y recargá la página.</p>
+    </div>`;
 }
 
 document.getElementById('filterGroup').addEventListener('click', e => {
@@ -66,4 +82,17 @@ document.getElementById('lightbox').addEventListener('click', () => {
   document.getElementById('lightbox').classList.add('hidden');
 });
 
-render();
+async function init() {
+  showLoading();
+  try {
+    // Agrega ?v= para evitar caché del navegador
+    const res = await fetch(`data.json?v=${Date.now()}`);
+    if (!res.ok) throw new Error();
+    items = await res.json();
+    render();
+  } catch (e) {
+    showError();
+  }
+}
+
+init();

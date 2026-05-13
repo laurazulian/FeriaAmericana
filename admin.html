@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN (oculto hasta login) -->
+<!-- PANEL ADMIN -->
 <div id="adminPanel" class="hidden">
 
   <header>
@@ -38,6 +38,13 @@
     </div>
   </header>
 
+  <!-- AVISO DE EXPORTAR -->
+  <div class="export-reminder hidden" id="exportReminder">
+    <span>⚠️ Tenés cambios sin publicar.</span>
+    <button class="btn-export-inline" id="btnExport">Descargar data.json</button>
+    <span class="export-steps">→ subilo al repo → Vercel redespliega solo</span>
+  </div>
+
   <div class="toolbar">
     <div class="filter-group" id="filterGroup">
       <button class="filter-btn active" data-filter="todas">Todas</button>
@@ -46,14 +53,12 @@
       <button class="filter-btn" data-filter="vendido">Vendidas</button>
     </div>
     <span class="count-badge" id="countBadge">0 prendas</span>
-    <button class="btn-add" id="btnAdd">
-      <span>＋</span> Agregar prenda
-    </button>
+    <button class="btn-add" id="btnAdd">＋ Agregar prenda</button>
   </div>
 
   <div class="catalog-grid" id="catalogGrid"></div>
 
-  <!-- MODAL AGREGAR / EDITAR -->
+  <!-- MODAL -->
   <div class="modal-overlay hidden" id="modalOverlay">
     <div class="modal">
       <div class="modal-header">
@@ -65,9 +70,20 @@
         <div class="upload-zone" id="uploadZone">
           <div class="upload-label">
             <span>🖼️</span>
-            <p>Hacé clic o arrastrá una foto</p>
+            <p>Seleccioná la foto para hacer preview</p>
           </div>
+          <img id="imgPreview" class="hidden" src="" alt="Preview" />
           <input type="file" id="fileInput" accept="image/*" />
+        </div>
+
+        <!-- Hint cuando se elige archivo -->
+        <div class="image-hint hidden" id="imageHint">
+          📁 Acordate de subir <strong id="imageHintName"></strong> a la carpeta <code>imagenes/</code> del repo
+        </div>
+
+        <div class="field">
+          <label for="fImagenRuta">Ruta de la imagen en el repo</label>
+          <input type="text" id="fImagenRuta" placeholder="imagenes/nombre-del-archivo.jpg" />
         </div>
 
         <div class="field">
@@ -124,7 +140,7 @@
     <img id="lightboxImg" src="" alt="Foto ampliada" />
   </div>
 
-</div><!-- /adminPanel -->
+</div>
 
 <script src="admin.js"></script>
 </body>

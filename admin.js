@@ -1,33 +1,29 @@
-// admin.js — panel de administración con login
+// admin.js — panel de administración
+// Las prendas se editan acá y se exporta el JSON para pegar en data.json
 
-const STORAGE_KEY = 'feria_americana_v1';
 const SESSION_KEY = 'feria_admin_session';
+const ADMIN_PASSWORD = 'miferiapass123'; // ← cambiá esto
 
-// ── CAMBIÁ ESTA CONTRASEÑA ────────────────────
-const PASSWORD = 'miferiapass123';
-// ─────────────────────────────────────────────
-
-let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let items = [];
 let editingId = null;
 let currentFilter = 'todas';
-let pendingImage = null;
+let pendingImage = null;   // base64 solo para preview; no se usa como src final
+let pendingImageName = ''; // nombre del archivo que el usuario debe subir al repo
 
 // ── LOGIN ─────────────────────────────────────
 function checkSession() {
-  if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
-    showPanel();
-  }
+  if (sessionStorage.getItem(SESSION_KEY) === 'ok') showPanel();
 }
 
-function showPanel() {
+async function showPanel() {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('adminPanel').classList.remove('hidden');
-  render();
+  await loadData();
 }
 
 document.getElementById('btnLogin').addEventListener('click', () => {
   const val = document.getElementById('passwordInput').value;
-  if (val === PASSWORD) {
+  if (val === ADMIN_PASSWORD) {
     sessionStorage.setItem(SESSION_KEY, 'ok');
     document.getElementById('loginError').classList.add('hidden');
     showPanel();
@@ -47,10 +43,30 @@ document.getElementById('btnLogout').addEventListener('click', () => {
   location.reload();
 });
 
-// ── Persistencia ──────────────────────────────
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+// ── Carga data.json ───────────────────────────
+async function loadData() {
+  try {
+    const res = await fetch(`data.json?v=${Date.now()}`);
+    items = res.ok ? await res.json() : [];
+  } catch {
+    items = [];
+  }
+  render();
 }
+
+// ── Exportar JSON ─────────────────────────────
+function exportJSON() {
+  const json = JSON.stringify(items, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('btnExport').addEventListener('click', exportJSON);
 
 // ── Render ────────────────────────────────────
 function render() {
@@ -67,8 +83,8 @@ function render() {
     grid.innerHTML = `
       <div class="empty-state">
         <div class="icon">👗</div>
-        <strong>No hay prendas aquí todavía</strong>
-        <p>Hacé clic en <strong>Agregar prenda</strong> para sumar tu primera pieza.</p>
+        <strong>No hay prendas todavía</strong>
+        <p>Hacé clic en <strong>Agregar prenda</strong> para empezar.</p>
       </div>`;
     return;
   }
@@ -113,6 +129,7 @@ document.getElementById('filterGroup').addEventListener('click', e => {
 function openModal(id = null) {
   editingId = id;
   pendingImage = null;
+  pendingImageName = '';
 
   const item = id ? items.find(i => i.id === id) : null;
 
@@ -123,15 +140,22 @@ function openModal(id = null) {
   document.getElementById('fPrecio').value = item?.precio || '';
   document.getElementById('fEstado').value = item?.estado || 'disponible';
   document.getElementById('fNota').value = item?.nota || '';
+  document.getElementById('fImagenRuta').value = item?.imagen || '';
 
+  // Preview si ya tiene imagen
   const zone = document.getElementById('uploadZone');
-  zone.querySelectorAll('img').forEach(el => el.remove());
+  const preview = document.getElementById('imgPreview');
   if (item?.imagen) {
-    const img = document.createElement('img');
-    img.src = item.imagen;
-    zone.appendChild(img);
+    preview.src = item.imagen;
+    preview.classList.remove('hidden');
+    zone.querySelector('.upload-label').classList.add('hidden');
+  } else {
+    preview.src = '';
+    preview.classList.add('hidden');
+    zone.querySelector('.upload-label').classList.remove('hidden');
   }
 
+  document.getElementById('imageHint').classList.add('hidden');
   document.getElementById('modalOverlay').classList.remove('hidden');
 }
 
@@ -139,6 +163,7 @@ function closeModal() {
   document.getElementById('modalOverlay').classList.add('hidden');
   editingId = null;
   pendingImage = null;
+  pendingImageName = '';
 }
 
 document.getElementById('btnAdd').addEventListener('click', () => openModal());
@@ -147,46 +172,54 @@ document.getElementById('modalOverlay').addEventListener('click', e => {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 });
 
-// ── Upload imagen ─────────────────────────────
+// ── Preview de imagen local (solo visual, no se guarda en JSON) ───
 const fileInput = document.getElementById('fileInput');
 const uploadZone = document.getElementById('uploadZone');
 
 fileInput.addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
-  readImage(file);
+
+  // Sugerir ruta automáticamente
+  const safeName = file.name.replace(/\s+/g, '-').toLowerCase();
+  pendingImageName = safeName;
+  document.getElementById('fImagenRuta').value = `imagenes/${safeName}`;
+
+  // Mostrar hint
+  document.getElementById('imageHint').classList.remove('hidden');
+  document.getElementById('imageHintName').textContent = safeName;
+
+  // Preview local
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const preview = document.getElementById('imgPreview');
+    preview.src = ev.target.result;
+    preview.classList.remove('hidden');
+    uploadZone.querySelector('.upload-label').classList.add('hidden');
+  };
+  reader.readAsDataURL(file);
 });
 
 uploadZone.addEventListener('dragover', e => {
   e.preventDefault();
   uploadZone.classList.add('dragover');
 });
-
 uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-
 uploadZone.addEventListener('drop', e => {
   e.preventDefault();
   uploadZone.classList.remove('dragover');
   const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) readImage(file);
+  if (file && file.type.startsWith('image/')) {
+    fileInput.files = e.dataTransfer.files;
+    fileInput.dispatchEvent(new Event('change'));
+  }
 });
 
-function readImage(file) {
-  const reader = new FileReader();
-  reader.onload = ev => {
-    pendingImage = ev.target.result;
-    uploadZone.querySelectorAll('img').forEach(el => el.remove());
-    const img = document.createElement('img');
-    img.src = pendingImage;
-    uploadZone.appendChild(img);
-  };
-  reader.readAsDataURL(file);
-}
-
-// ── Guardar ───────────────────────────────────
+// ── Guardar prenda ────────────────────────────
 document.getElementById('btnSave').addEventListener('click', () => {
   const nombre = document.getElementById('fNombre').value.trim();
   const precio = document.getElementById('fPrecio').value;
+  const imagen = document.getElementById('fImagenRuta').value.trim();
 
   if (!nombre) { alert('Agregá un nombre para la prenda.'); return; }
   if (precio === '') { alert('Ingresá un precio.'); return; }
@@ -201,7 +234,7 @@ document.getElementById('btnSave').addEventListener('click', () => {
       precio: Number(precio),
       estado: document.getElementById('fEstado').value,
       nota: document.getElementById('fNota').value.trim(),
-      ...(pendingImage ? { imagen: pendingImage } : {})
+      imagen: imagen || null
     };
   } else {
     items.unshift({
@@ -212,14 +245,18 @@ document.getElementById('btnSave').addEventListener('click', () => {
       precio: Number(precio),
       estado: document.getElementById('fEstado').value,
       nota: document.getElementById('fNota').value.trim(),
-      imagen: pendingImage || null
+      imagen: imagen || null
     });
   }
 
-  save();
   render();
   closeModal();
+  showExportReminder();
 });
+
+function showExportReminder() {
+  document.getElementById('exportReminder').classList.remove('hidden');
+}
 
 // ── Editar / Eliminar ─────────────────────────
 function openEdit(id) { openModal(id); }
@@ -227,8 +264,8 @@ function openEdit(id) { openModal(id); }
 function deleteItem(id) {
   if (!confirm('¿Eliminar esta prenda?')) return;
   items = items.filter(i => i.id !== id);
-  save();
   render();
+  showExportReminder();
 }
 
 // ── Lightbox ──────────────────────────────────
