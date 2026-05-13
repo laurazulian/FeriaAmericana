@@ -1,5 +1,135 @@
 [
   {
+    "id": "cc84ae0e-d8d7-483f-b9c3-53bcbdcce5d3",
+    "nombre": "Tapado paño Portsaid",
+    "categoria": "Camperas",
+    "talle": "S",
+    "precio": 100000,
+    "estado": "disponible",
+    "nota": "Usado",
+    "imagen": "imagenes/tapadopaño.jpeg"
+  },
+  {
+    "id": "382ec9c4-bfa1-4e33-bc12-4c7ffc96585d",
+    "nombre": "Remera rosa",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 25000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/remerarosa.jpeg"
+  },
+  {
+    "id": "79375fdf-4167-4aa0-8042-774d919de957",
+    "nombre": "Remera top mostaza",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 25000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/remeramostaza.jpeg"
+  },
+  {
+    "id": "ac470e50-5e52-4dbd-828d-e8bf94cac4eb",
+    "nombre": "Remera gris corta con top interno",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 23000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/remeragriscorta.jpeg"
+  },
+  {
+    "id": "ac6d47d6-35fb-44cf-9fb2-86e32b1db5d8",
+    "nombre": "Remera gris con top interno",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 25000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/remeragriscontoplarga.jpeg"
+  },
+  {
+    "id": "f83ca707-e1e3-4420-a22a-a9d644cf80e9",
+    "nombre": "Calza violeta",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/calzavioleta.jpeg"
+  },
+  {
+    "id": "430a0d2f-b045-4800-b20b-8b6c2a312ac7",
+    "nombre": "Calza verde seco",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/calzaverde.jpeg"
+  },
+  {
+    "id": "f0efe49f-d741-4681-b82e-1a674a5c54c9",
+    "nombre": "Calza rosa combinada",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/calzarosacombinada.jpeg"
+  },
+  {
+    "id": "f37e94f1-6320-4257-958d-35a5f34c189e",
+    "nombre": "Calza Rosa oscuro",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 35000,
+    "estado": "disponible",
+    "nota": "Nueva",
+    "imagen": "imagenes/calzarosaalgodon.jpeg"
+  },
+  {
+    "id": "539d8039-582c-4448-a032-211be9db6685",
+    "nombre": "Calza rosa supplex",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 30000,
+    "estado": "disponible",
+    "nota": "Usada",
+    "imagen": "imagenes/calzarosa.jpeg"
+  },
+  {
+    "id": "1b8bb850-60d0-4eeb-a4e4-9d922bc7d056",
+    "nombre": "Calza Roja",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 30000,
+    "estado": "disponible",
+    "nota": "Usada",
+    "imagen": "imagenes/calzaroja.jpeg"
+  },
+  {
+    "id": "3c8cd430-c468-4eca-af0b-8242abe81581",
+    "nombre": "Calza Combinada extralarga gris",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 30000,
+    "estado": "disponible",
+    "nota": "Usada",
+    "imagen": "imagenes/calzagriscombinada.jpeg"
+  },
+  {
+    "id": "f9631db2-2014-4f51-bf6b-9d676d8b6aa9",
+    "nombre": "Calza gris algodón",
+    "categoria": "Otro",
+    "talle": "S",
+    "precio": 30000,
+    "estado": "disponible",
+    "nota": "Usada",
+    "imagen": "imagenes/calzagris.jpeg"
+  },
+  {
     "id": "0b72a393-3a45-45da-981b-d5b132e2c3d0",
     "nombre": "Remera Amarilla Top",
     "categoria": "Tops",
