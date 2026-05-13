@@ -1,5 +1,15 @@
 [
   {
+    "id": "0b72a393-3a45-45da-981b-d5b132e2c3d0",
+    "nombre": "Remera Amarilla Top",
+    "categoria": "Tops",
+    "talle": "S",
+    "precio": 25000,
+    "estado": "disponible",
+    "nota": "",
+    "imagen": "imagenes/remeraamarilla.jpeg"
+  },
+  {
     "id": "85f5359e-d2d3-454c-9221-6776383dc578",
     "nombre": "Calza Fucsia",
     "categoria": "Otro",
@@ -7,7 +17,7 @@
     "precio": 35000,
     "estado": "disponible",
     "nota": "",
-    "imagen": "imagenes/calzafucsia.jpeg"
+    "imagen": "/imagenes/calzafucsia.jpeg"
   },
   {
     "id": "c647f407-aebc-493d-8194-46e960eb111c",
@@ -17,6 +27,6 @@
     "precio": 35000,
     "estado": "disponible",
     "nota": "",
-    "imagen": "imagenes/calzacombinadaverde.jpeg"
+    "imagen": "./imagenes/calzacombinadaverde.jpeg"
   }
 ]
