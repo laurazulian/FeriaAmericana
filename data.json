@@ -147,7 +147,7 @@
     "precio": 35000,
     "estado": "disponible",
     "nota": "",
-    "imagen": "/imagenes/calzafucsia.jpg"
+    "imagen": "imagenes/calzafucsia.jpg"
   },
   {
     "id": "c647f407-aebc-493d-8194-46e960eb111c",
