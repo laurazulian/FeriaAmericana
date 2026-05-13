@@ -7,7 +7,7 @@
     "precio": 100000,
     "estado": "disponible",
     "nota": "Usado",
-    "imagen": "imagenes/tapadopaño.jpeg"
+    "imagen": "./imagenes/tapadopaño.jpeg"
   },
   {
     "id": "382ec9c4-bfa1-4e33-bc12-4c7ffc96585d",
@@ -17,7 +17,7 @@
     "precio": 25000,
     "estado": "disponible",
     "nota": "Nueva",
-    "imagen": "imagenes/remerarosa.jpeg"
+    "imagen": "./imagenes/remerarosa.jpeg"
   },
   {
     "id": "79375fdf-4167-4aa0-8042-774d919de957",
