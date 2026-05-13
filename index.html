@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Feria Americana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ Feria Americana</div>
+  <h1>Mi <em>Closet</em></h1>
+  <p>Ropa con historia, a precios que no duelen</p>
+</header>
+
+<div class="toolbar">
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" data-filter="todas">Todas</button>
+    <button class="filter-btn" data-filter="disponible">Disponibles</button>
+    <button class="filter-btn" data-filter="reservado">Reservadas</button>
+    <button class="filter-btn" data-filter="vendido">Vendidas</button>
+  </div>
+  <span class="count-badge" id="countBadge">0 prendas</span>
+</div>
+
+<div class="catalog-grid" id="catalogGrid"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox hidden" id="lightbox">
+  <img id="lightboxImg" src="" alt="Foto ampliada" />
+</div>
+
+<script src="catalog.js"></script>
+</body>
+</html>
